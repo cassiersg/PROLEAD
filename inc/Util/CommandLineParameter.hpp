@@ -13,4 +13,5 @@ struct CommandLineParameterStruct
     std::string HardwareOrSoftwareCase = "hardware";
     std::string LinkerFileName = "linker.ld";
     std::string BinaryInformationNames = "";
+    bool SkipBuild = false;
 };

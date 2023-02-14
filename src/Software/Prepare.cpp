@@ -63,7 +63,7 @@ void Software::Prepare::All(CommandLineParameterStruct& Parameter, Software::Con
     strcpy(EvaluationResultFolderName, Parameter.EvaluationResultFolderName.c_str());
 
     Software::Read::SettingsFile(SettingsFileName, Settings, Probes, ignoreMakefileConfig);
-    Software::Read::BinaryFile(DesignFileName , Settings, LinkerFileName);
+    Software::Read::BinaryFile(DesignFileName , Settings, LinkerFileName, Parameter);
 
 	GlobalThreadSimulations.resize(Settings->Max_no_of_Threads);
     

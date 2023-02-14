@@ -25,6 +25,11 @@ int main(int argc, char *argv[])
 
     while (i < argc - 1)
     {
+        if ((CommandLineArguments.at(i) == "-s") || (CommandLineArguments.at(i) == "-skip-build")){
+            CommandLineParameters.SkipBuild = true;
+            i += 1;
+        }
+        else
         if ((CommandLineArguments.at(i) == "-lf") || (CommandLineArguments.at(i) == "-libraryfile")){
             CommandLineParameters.LibraryFileName = CommandLineArguments.at(i + 1);
             std::filesystem::path path(CommandLineParameters.LibraryFileName);

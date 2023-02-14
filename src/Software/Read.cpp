@@ -1,4 +1,5 @@
 #include "Software/Read.hpp"
+#include "Software/Prepare.hpp"
 
 //***************************************************************************************
 
@@ -2051,7 +2052,7 @@ void Software::Read::SettingsFile(char* InputSettingsFileName, Software::Setting
 	}
 
 }
-void Software::Read::BinaryFile(char* ProgramFolderName, Software::SettingsStruct* Settings, char* Linkerfile){
+void Software::Read::BinaryFile(char* ProgramFolderName, Software::SettingsStruct* Settings, char* Linkerfile, CommandLineParameterStruct& Parameter){
     char pyscript_filename[] = "../../../../../inc/Software/compile_sw.py"; 
     FILE *fp;
     
@@ -2131,14 +2132,15 @@ void Software::Read::BinaryFile(char* ProgramFolderName, Software::SettingsStruc
 
     PySys_SetArgvEx(additonal_info_ctr + str_ctr, argv, 0);
 
-    fp = fopen(pyscript_filename, "r");
-
-    if(fp == NULL){
-		ErrorMessage = "could not open python file!";
-		throw std::runtime_error(ErrorMessage);
+    if (!Parameter.SkipBuild) {
+        fp = fopen(pyscript_filename, "r");
+        if(fp == NULL){
+            ErrorMessage = "could not open python file!";
+            throw std::runtime_error(ErrorMessage);
+        }
+        PyRun_SimpleFile(fp, pyscript_filename); //execute compile_sw.py
+        fclose(fp);
     }
-    PyRun_SimpleFile(fp, pyscript_filename); //execute compile_sw.py
-    fclose(fp);
 
     // delete dynamic arrays
     for(uint32_t i = 0; i < additonal_info_ctr + str_ctr; ++i){
